@@ -7,23 +7,24 @@
         $this->connection=$conn;
     }
     public function login($email, $password) {
-        $query = $this->connection->prepare("SELECT * FROM Users WHERE email = :email AND password = :password");
+        $query = $this->connection->prepare("SELECT * FROM User WHERE email = :email AND password = :password");
         $query->execute([
             "username" => $email,
             "password" => $password
         ]);
         return $query->fetch();
     }
-    public function register($username, $password) {
-        $query = $this->connection->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+    public function register($email, $username,$password) {
+        $query = $this->connection->prepare("INSERT INTO User (email,username, password) VALUES (:email,:username, :password)");
         $query->execute([
+            "email" => $email,
             "username" => $username,
             "password" => $password
         ]);
     }
     public function createTask($task_name,$task_description,$due_date,$state)
     {
-        $query = $this->connection->prepare("INSERT INTO Tasks (task_id,task_name, task_description, due_date, state) VALUES (:task_id,:task_name, :task_description, :due_date, :state)");
+        $query = $this->connection->prepare("INSERT INTO Task (task_id,task_name, task_description, due_date, state) VALUES (:task_id,:task_name, :task_description, :due_date, :state)");
         $task_id=rand();
         $query->execute([
             "task_id"=>$task_id,
