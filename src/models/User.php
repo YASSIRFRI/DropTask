@@ -1,4 +1,5 @@
 <?php
+session_start();
  class User {
 
     private $connection;
@@ -7,31 +8,40 @@
         $this->connection=$conn;
     }
     public function login($email, $password) {
-        $query = $this->connection->prepare("SELECT * FROM User WHERE email = :email AND password = :password");
+        $query = $this->connection->prepare("SELECT * FROM User WHERE email = :email ");
         $query->execute([
-            "username" => $email,
-            "password" => $password
+            "email" => $email,
         ]);
-        return $query->fetch();
+        $user = $query->fetch();
+        if ($user && password_verify($password, $user["password"])) {
+            $user["tasks"]=$this->getTasks($user["user_id"]);
+            $user["completed_tasks"]=$this->getCompletedTasks($user["user_id"]);
+            return $user;
+        }
+        else {
+            return false;
+        }
     }
     public function register($email, $username,$password) {
         $query = $this->connection->prepare("INSERT INTO User (email,username, password) VALUES (:email,:username, :password)");
+        $password_hashed = password_hash($password, PASSWORD_DEFAULT);
         $query->execute([
             "email" => $email,
             "username" => $username,
-            "password" => $password
+            "password" => $password_hashed
         ]);
+        return $this->login($email, $password);
     }
-    public function createTask($task_name,$task_description,$due_date,$state)
+    public function createTask($task_name,$task_description,$due_date,$status)
     {
-        $query = $this->connection->prepare("INSERT INTO Task (task_id,task_name, task_description, due_date, state) VALUES (:task_id,:task_name, :task_description, :due_date, :state)");
+        $query = $this->connection->prepare("INSERT INTO Task (task_id,task_name, task_description, due_date, status) VALUES (:task_id,:task_name, :task_description, :due_date, :status)");
         $task_id=rand();
         $query->execute([
             "task_id"=>$task_id,
             "task_name" => $task_name,
             "task_description" => $task_description,
             "due_date" => $due_date,
-            "state" => $state
+            "status" => $status
         ]);
         $query= $this->connection->prepare("INSERT INTO User_Task VALUES (:user_id,:task_id)");
         $query->execute([
@@ -39,6 +49,19 @@
             "task_id"=>$task_id
         ]);
     }
+    public function editTask($id, $task_name,$task_description,$due_date,$status)
+    {
+        $query = $this->connection->prepare("UPDATE Task SET task_name = :task_name, task_description = :task_description, due_date = :due_date, status = :status WHERE id = :id");
+        $query->execute([
+            "id" => $id,
+            "task_name" => $task_name,
+            "task_description" => $task_description,
+            "due_date" => $due_date,
+            "status" => $status
+        ]);
+    }
+ 
+  
     public function createReminder($task_name,$reminder_name, $reminder_date)
     {
         $query = $this->connection->prepare("INSERT INTO Task_Reminder (reminder_name, reminder_date) VALUES (:reminder_name, :reminder_date)");

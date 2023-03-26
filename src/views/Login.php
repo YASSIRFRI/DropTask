@@ -12,7 +12,7 @@
 		<input type="checkbox" id="chk" aria-hidden="true">
 
 			<div class="signup">
-				<form action="/src/controllers/RegistrationController.php">
+				<form action="/src/controllers/RegistrationController.php" method="POST">
 					<label for="chk" aria-hidden="true">Sign up</label>
 					<input type="email" name="email" placeholder="Email" required="">
 					<input type="text" name="username" placeholder="Username" required="">
@@ -20,9 +20,8 @@
 					<button>Sign up</button>
 				</form>
 			</div>
-
 			<div class="login">
-				<form action="/src/controllers/LoginController.php">
+				<form action="/src/controllers/LoginController.php" method="POST">
 					<label for="chk" aria-hidden="true">Login</label>
 					<input type="email" name="email" placeholder="Email" required="">
 					<input type="password" name="password" placeholder="Password" required="">

@@ -1,9 +1,8 @@
 <?php
+session_start();
 
-
-
-require 'src/models/User.php';
-require 'src/dbconfig.php';
+include '../models/User.php';
+include '../dbconfig.php';
 
 class RegistrationController
 {
@@ -17,8 +16,9 @@ class RegistrationController
         $user = $this->userModel->register($_POST['email'], $_POST['username'], $_POST['password']);
         if ($user) {
             $_SESSION['user'] = $user;
-        } else {
-            echo "Wrong username or password";
+            header("Location: /src/views/Dashboard.php");
+        } else{
+            header("Location: /src/views/Login.php/?error=1");
         }
     }
 }
