@@ -1,8 +1,7 @@
 <?php
-
-
-require 'src/models/User.php';
-require 'src/dbconfig.php';
+session_start();
+require '../models/User.php';
+require '../dbconfig.php';
 class LoginController
 {
     private $userModel;
@@ -12,10 +11,16 @@ class LoginController
     }
     public function login()
     {
-        $user = $this->userModel->login($_POST['email'], $_POST['password']);
-        if ($user) {
-            $_SESSION['user'] = $user;
-            header('Location: /');
+        try
+        {
+            $user=$this->userModel->login($_POST['email'], $_POST['password']);
+        }
+        catch(Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        if (isset($_SESSION["user"])) {
+            header("location: ../views/Dashboard.php");
         } else {
             echo "Wrong username or password";
         }

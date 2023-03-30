@@ -47,5 +47,9 @@ CREATE TABLE IF NOT EXISTS Task_Reminder (
 
 
 
+--ALTER TABLE `task` ADD `priority` VARCHAR(255) CHARACTER SET armscii8 COLLATE armscii8_bin NOT NULL DEFAULT 'low' AFTER `status`;
+
+
+
 
 

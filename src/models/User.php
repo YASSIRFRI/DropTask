@@ -1,14 +1,16 @@
 <?php
-session_start();
+if(!isset($_SESSION['user']))
+{
+    header('Location: /src/views/Login.php');
+}
  class User {
-
     private $connection;
     public function __construct($conn)
     {
         $this->connection=$conn;
     }
     public function login($email, $password) {
-        $query = $this->connection->prepare("SELECT * FROM User WHERE email = :email ");
+        $query = $this->connection->prepare("SELECT * FROM user WHERE email = :email");
         $query->execute([
             "email" => $email,
         ]);
@@ -16,7 +18,7 @@ session_start();
         if ($user && password_verify($password, $user["password"])) {
             $user["tasks"]=$this->getTasks($user["user_id"]);
             $user["completed_tasks"]=$this->getCompletedTasks($user["user_id"]);
-            return $user;
+            $_SESSION["user"]=$user;
         }
         else {
             return false;
@@ -32,22 +34,41 @@ session_start();
         ]);
         return $this->login($email, $password);
     }
-    public function createTask($task_name,$task_description,$due_date,$status)
+    public function createTask($task_name,$task_description,$due_date,$priority)
     {
-        $query = $this->connection->prepare("INSERT INTO Task (task_id,task_name, task_description, due_date, status) VALUES (:task_id,:task_name, :task_description, :due_date, :status)");
+        $query = $this->connection->prepare("INSERT INTO Task (task_id,task_name, task_description, due_date,priority,status) VALUES (:task_id,:task_name, :task_description, :due_date, :priority, :status)");
         $task_id=rand();
-        $query->execute([
-            "task_id"=>$task_id,
-            "task_name" => $task_name,
-            "task_description" => $task_description,
-            "due_date" => $due_date,
-            "status" => $status
-        ]);
-        $query= $this->connection->prepare("INSERT INTO User_Task VALUES (:user_id,:task_id)");
-        $query->execute([
-            "user_id"=>$_SESSION["user_id"],
-            "task_id"=>$task_id
-        ]);
+        try
+        {
+            $query->execute([
+                "task_id"=>$task_id,
+                "task_name" => $task_name,
+                "task_description" => $task_description,
+                "due_date" => $due_date,
+                "priority" => $priority,
+                "status" => "in progress"
+            ]);
+        }
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+            return false;
+        }
+        try
+        {
+            $query= $this->connection->prepare("INSERT INTO User_Task VALUES (:user_id,:task_id)");
+            $query->execute([
+                "user_id"=>$_SESSION["user"]["user_id"],
+                "task_id"=>$task_id
+            ]);
+        }
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+            return false;
+        }
+        return true;
+
     }
     public function editTask($id, $task_name,$task_description,$due_date,$status)
     {
@@ -73,16 +94,15 @@ session_start();
     public function getCompletedTasks($user_id)
     {
         $query=$this->connection->prepare("SELECT task_name, task_description FROM 
-        User_Task JOIN Task WHERE user_id=:user_id and Task.status=completed");
+        User_Task JOIN Task WHERE user_id=:user_id and Task.status='completed'");
         $query->execute([
             "user_id"=>$user_id
         ]);
         $query->fetchAll();
     }
-
     public function completeTaks($task_name)
     {
-        $query=$this->connection->prepare("UPDATE Tasks SET status=completed WHERE task_name=:task_name");
+        $query=$this->connection->prepare("UPDATE Tasks SET status='completed' WHERE task_name=:task_name");
         try{
             $query->execute([
                 "task_name"=>$task_name
@@ -95,7 +115,8 @@ session_start();
     }
     public function getTasks($user_id)
     {
-        $query = $this->connection->prepare("SELECT * FROM User_Task WHERE user_id = :user_id");
+        $query = $this->connection->prepare("SELECT task_name, task_description FROM 
+        User_Task JOIN Task WHERE user_id=:user_id and Task.status='in progress'");
         $query->execute([
             "user_id" => $user_id
         ]);

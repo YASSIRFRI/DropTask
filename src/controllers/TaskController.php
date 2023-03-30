@@ -1,8 +1,7 @@
 <?php
-
+session_start();
 require '../models/User.php';
 require '../dbconfig.php';
-
 class TaskController
 {
     private $userModel;
@@ -53,7 +52,20 @@ $taskController = new TaskController($user);
 if(isset($_POST['task_description']))
 {
     $taskController->addTask();
-    echo "add";
+}
+else
+{
+    if(isset($_POST["task_delete"]))
+    {
+        $taskController->deleteTask();
+    }
+    else
+    {
+        if(isset($_POST["task_edit"]))
+        {
+            $taskController->editTask();
+        }
+    }
 }
 
 

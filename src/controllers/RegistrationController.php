@@ -13,7 +13,13 @@ class RegistrationController
     }
     public function register()
     {
-        $user = $this->userModel->register($_POST['email'], $_POST['username'], $_POST['password']);
+        try{
+            $user = $this->userModel->register($_POST['email'], $_POST['username'], $_POST['password']);
+        }
+        catch(Exception $e)
+        {
+            echo $e->getMessage();
+        }
         if ($user) {
             $_SESSION['user'] = $user;
             header("Location: /src/views/Dashboard.php");
