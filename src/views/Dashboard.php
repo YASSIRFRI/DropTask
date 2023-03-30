@@ -49,9 +49,9 @@ echo
                       <div class="widget-content-right">
                         <button class="border-0 btn-transition btn btn-outline-success" href="../TaskController/?task_complete='.$task["task_id"].'">
                           <i class="fa fa-check"></i></button>
-                        <button class="border-0 btn-transition btn btn-outline-primary">
+                        <button class="border-0 btn-transition btn btn-outline-primary" href="./upDateTask/?task_id='.$task["task_id"].'">
                           <i class="fa fa-edit"></i></button>
-                          <button class="border-0 btn-transition btn btn-outline-danger">
+                          <button class="border-0 btn-transition btn btn-outline-danger" href="../TaskController/?task_delete='.$task["task_id"].'">
                          <i class="fa fa-trash"></i>
                         </button>
                       </div>
@@ -86,6 +86,10 @@ echo
         <a class="btn btn-primary" href="./AddTask.php">Add Task</a></div>
       </div>
     </div>
+    </div>
+    <div class="d-flex justify-content-center container p-4">
+    <div class="w-100 p-4 h-100">
+    <a class="btn btn-danger" href="../controllers/LoginController/?logout=true">Logout</a>
     </div>
     </body>';
 

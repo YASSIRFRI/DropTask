@@ -35,6 +35,14 @@ if(isset($_POST['email']))
 {
     $loginController->login();
 }
+else
+{
+    if(isset($_GET['logout']))
+    {
+        session_destroy();
+        header('Location: /src/views/Login.php');
+    }
+}
 
 
 
