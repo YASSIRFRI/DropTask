@@ -49,6 +49,8 @@ echo
                       <div class="widget-content-right">
                         <button class="border-0 btn-transition btn btn-outline-success">
                           <i class="fa fa-check"></i></button>
+                        <button class="border-0 btn-transition btn btn-outline-primary">
+                          <i class="fa fa-edit"></i></button>
                           <button class="border-0 btn-transition btn btn-outline-danger">
                          <i class="fa fa-trash"></i>
                         </button>
@@ -80,15 +82,11 @@ echo
             </div>
           </perfect-scrollbar>
         </div>
-        <div class="d-block text-right card-footer"><button class="mr-2 btn btn-link btn-sm">Cancel</button><button
-            class="btn btn-primary"><a href="./AddTask.php">Add Task</a></button></div>
+        <div class="d-block w-100 text-right card-footer"><a class="mr-2 btn btn-warning">Get Compelted Tasks</a>
+        <a class="btn btn-primary" href="./AddTask.php">Add Task</a></div>
       </div>
     </div>
     </div>
     </body>';
-    
-
-
-
 
 ?>
