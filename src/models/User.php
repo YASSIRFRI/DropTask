@@ -93,12 +93,12 @@ if(!isset($_SESSION['user']))
     }
     public function getCompletedTasks($user_id)
     {
-        $query=$this->connection->prepare("SELECT task_name, task_description FROM 
-        User_Task JOIN Task WHERE user_id=:user_id and Task.status='completed'");
+        $query=$this->connection->prepare("SELECT task_id,task_name, task_description, task_date FROM 
+        User_Task JOIN Task ON User_Task.task_di=Task.task_id WHERE user_id=:user_id and Task.status='completed'");
         $query->execute([
             "user_id"=>$user_id
         ]);
-        $query->fetchAll();
+        return $query->fetchAll();
     }
     public function completeTaks($task_name)
     {

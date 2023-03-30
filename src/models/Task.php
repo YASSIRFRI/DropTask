@@ -26,15 +26,15 @@ class Task
             "id" => $task_id
         ]);
     }
-    public function updateTask($id, $task_name,$task_description,$due_date,$state)
+    public function updateTask($id, $task_name,$task_description,$due_date,$priority)
     {
-        $query = $this->connection->prepare("UPDATE Task SET task_name = :task_name, task_description = :task_description, due_date = :due_date, state = :state WHERE id = :id");
+        $query = $this->connection->prepare("UPDATE Task SET task_name = :task_name, task_description = :task_description, due_date = :due_date, priority= :priority WHERE id = :id");
         $query->execute([
             "id" => $id,
             "task_name" => $task_name,
             "task_description" => $task_description,
             "due_date" => $due_date,
-            "state" => $state
+            "state" => $priority
         ]);
     }
 }

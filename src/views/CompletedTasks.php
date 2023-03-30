@@ -35,10 +35,8 @@ session_start();
                         <td>'.$task["task_name"].'</td>
                         <td>'.$task["task_description"].'</td>
                         <td>'.$task["task_status"].'</td>
-                        <td>'.$task["task_date"].'</td>
-                        <td>'.$task["task_time"].'</td>
+                        <td>'.$task["due_date"].'</td>
                         <td>'.$task["task_priority"].'</td>
-                        <td>'.$task["task_category"].'</td>
                         <td>
                             <a href="/edit-task/'.$task["task_id"].'" class="btn btn-primary">Edit</a>
                             <a href="/delete-task/'.$task["task_id"].'" class="btn btn-danger">Delete</a>
