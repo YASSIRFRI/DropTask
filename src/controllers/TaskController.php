@@ -45,6 +45,15 @@ class TaskController
             header("Location: /src/views/Dashboard.php/?error=1");
         }
     }
+    public function completeTask()
+    {
+        $task = $this->userModel->completeTask($_GET['task_complete']);
+        if ($task) {
+            header("Location: /src/views/Dashboard.php");
+        } else {
+            header("Location: /src/views/Dashboard.php/?error=1");
+        }
+    }
 
 }	
 $user= new User($conn);
@@ -55,15 +64,16 @@ if(isset($_POST['task_description']))
 }
 else
 {
-    if(isset($_POST["task_delete"]))
+    if(isset($_GET["task_delete"]))
     {
         $taskController->deleteTask();
     }
     else
     {
-        if(isset($_POST["task_edit"]))
+        if(isset($_GET["task_complete"]))
         {
-            $taskController->editTask();
+            $taskController->completeTask();
+            header("Location: /src/views/Dashboard.php");
         }
     }
 }

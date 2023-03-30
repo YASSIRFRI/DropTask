@@ -37,6 +37,14 @@ class Task
             "state" => $priority
         ]);
     }
+    public function completeTask($task_id)
+    {
+        $query = $this->connection->prepare("UPDATE Task SET state = :state WHERE task_id = :id");
+        $query->execute([
+            "id" => $task_id,
+            "state" => "completed"
+        ]);
+    }
 }
 
 

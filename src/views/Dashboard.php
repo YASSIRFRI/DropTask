@@ -47,13 +47,13 @@ echo
                           <div class="widget-subheading"><i>'.$task["task_name"].'</i></div>
                         </div>
                       <div class="widget-content-right">
-                        <button class="border-0 btn-transition btn btn-outline-success" href="../TaskController/?task_complete='.$task["task_id"].'">
-                          <i class="fa fa-check"></i></button>
-                        <button class="border-0 btn-transition btn btn-outline-primary" href="./upDateTask/?task_id='.$task["task_id"].'">
-                          <i class="fa fa-edit"></i></button>
-                          <button class="border-0 btn-transition btn btn-outline-danger" href="../TaskController/?task_delete='.$task["task_id"].'">
+                        <a class="border-0 btn-transition btn btn-outline-success" href="../controllers/TaskController?task_complete='.$task["task_id"].'">
+                          <i class="fa fa-check"></i></a>
+                        <a class="border-0 btn-transition btn btn-outline-primary" href="./upDateTask/?task_id='.$task["task_id"].'">
+                          <i class="fa fa-edit"></i></a>
+                          <a class="border-0 btn-transition btn btn-outline-danger" href="../controllers/TaskController?task_delete='.$task["task_id"].'">
                          <i class="fa fa-trash"></i>
-                        </button>
+                        </a>
                       </div>
                       </div>
                     </div>

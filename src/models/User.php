@@ -96,12 +96,12 @@
         ]);
         return $query->fetchAll();
     }
-    public function completeTaks($task_name)
+    public function completeTask($task_id)
     {
-        $query=$this->connection->prepare("UPDATE Tasks SET status='completed' WHERE task_name=:task_name");
+        $query=$this->connection->prepare("UPDATE Tasks SET status='completed' WHERE task_id=:task_id");
         try{
             $query->execute([
-                "task_name"=>$task_name
+                "task_id"=>$task_id
             ]);
         }
         catch(PDOException $e)
