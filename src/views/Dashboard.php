@@ -58,6 +58,10 @@ echo
                           <i class="fa fa-edit"></i></a>
                           <a class="border-0 btn-transition btn btn-outline-danger" href="../controllers/TaskController?task_delete='.$task["task_id"].'">
                          <i class="fa fa-trash"></i>
+                         <i class="fa fa-envelope-open" aria-hidden="true">
+                         <a class="border-0 btn-transition btn btn-outline-danger" href="../views/AddReminder.php?task_id='.$task["task_id"].'">
+                         </i>
+
                         </a>
                       </div>
                       </div>

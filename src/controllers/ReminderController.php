@@ -9,7 +9,7 @@ class ReminderController{
     }
     public function addReminder()
     {
-        $reminder = $this->userModel->createReminder($_POST['reminder_date_time'], $_POST['task_id']);
+        $reminder = $this->userModel->createReminder( $_POST['task_id'],$_POST['reminder_date_time']);
         if ($reminder) {
             header("Location: /src/views/Dashboard.php");
         } else {
@@ -35,6 +35,12 @@ class ReminderController{
         }
     }
 
+}
+$user= new User($conn);
+$reminderController = new ReminderController($user);
+if(isset($_POST['reminder_date_time']))
+{
+    $reminderController->addReminder();
 }
 
 ?>

@@ -9,29 +9,21 @@
 </head>
 <body>
 <div class="container">
+    <?php
+    echo $_GET["task_id"];
+    ?>
 		<h2>Add Reminder</h2>
 		<form action="../controllers/ReminderController.php" method="POST">
+			<input type="hidden" <?php echo "value=".$_GET["task_id"]?> name="task_id">
 			<div class="form-group">
 				<label for="name">Reminder Name:</label>
 				<input type="text" class="form-control" id="name" name="task_name" required>
 			</div>
-			<div class="form-group">
-				<label for="description">Reminder Description:</label>
-				<textarea class="form-control" id="description" name="task_description" rows="5" required></textarea>
-			</div>
             <div class="form-group">
                 <label for="date">Date:</label>
-                <input type="date" class="form-control" id="date" name="date" required>
+                <input type="date" class="form-control"  name="reminder_date_time" required>
             </div>
-            <div class="form-group">
-                <label for="priority">Priority:</label>
-                <select class="form-control" id="priority" name="priority" required>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Urgent">Urgent</option>
-                </select>
             </div>
-
 			<button type="submit" class="btn btn-primary">Add Reminder</button>
 		</form>
 	</div>

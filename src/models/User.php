@@ -119,10 +119,10 @@
     }
     public function createReminder($task_id,$reminder_date)
     {
-        $query = $this->connection->prepare("INSERT INTO Task_Reminder (task_id,reminder_date) VALUES (:task_id,:reminder_date)");
+        $query = $this->connection->prepare("INSERT INTO Task_Reminder (task_id,reminder_date_time) VALUES (:task_id,:reminder_date_time)");
         $query->execute([
             "task_id" => $task_id,
-            "reminder_date" => $reminder_date
+            "reminder_date_time" => $reminder_date
         ]);
     }
     public function deleteReminder($task_id)
