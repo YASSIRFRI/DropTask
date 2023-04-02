@@ -15,6 +15,11 @@ echo
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
     </head>
     <body>
+    <div class="nav">
+    <div class="logo">
+      <img src="/assets/logo-black.svg" alt="logo">
+      </div>
+    </div>
     <div class="d-flex justify-content-center container p-4">
     <div class="w-100 p-4 h-100">
       <div class="card-hover-shadow-2x mb-3 card">
@@ -78,12 +83,11 @@ echo
                   </li>
                 </ul>
               </div>
-              
             </div>
           </perfect-scrollbar>
         </div>
-        <div class="d-block w-100 text-right card-footer"><a class="mr-2 btn btn-warning" href="./CompletedTasks.php">Get Compelted Tasks</a>
-        <a class="btn btn-primary" href="./AddTask.php">Add Task</a></div>
+        <div class="d-block w-100 text-right card-footer"><a class="mr-2 btn btn-warning" href="/src/views/CompletedTasks.php">Get Compelted Tasks</a>
+        <a class="btn btn-primary" href="/src/views/AddTask.php">Add Task</a></div>
       </div>
     </div>
     </div>
