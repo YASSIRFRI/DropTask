@@ -14,6 +14,7 @@
         if ($user && password_verify($password, $user["password"])) {
             $user["tasks"]=$this->getTasks($user["user_id"]);
             $user["completed_tasks"]=$this->getCompletedTasks($user["user_id"]);
+            $user["reminders"]=$this->getReminders($user["user_id"]);
             $_SESSION["user"]=$user;
         }
         else {
@@ -77,16 +78,7 @@
             "status" => $status
         ]);
     }
- 
   
-    public function createReminder($task_name,$reminder_name, $reminder_date)
-    {
-        $query = $this->connection->prepare("INSERT INTO Task_Reminder (reminder_name, reminder_date) VALUES (:reminder_name, :reminder_date)");
-        $query->execute([
-            "reminder_name" => $reminder_name,
-            "reminder_date" => $reminder_date
-        ]);
-    }
     public function getCompletedTasks($user_id)
     {
         $query=$this->connection->prepare("SELECT Task.task_id ,task_name, task_description, due_date FROM 
@@ -125,5 +117,40 @@
             "id" => $id
         ]);
     }
+    public function createReminder($task_id,$reminder_date)
+    {
+        $query = $this->connection->prepare("INSERT INTO Task_Reminder (task_id,reminder_date) VALUES (:task_id,:reminder_date)");
+        $query->execute([
+            "task_id" => $task_id,
+            "reminder_date" => $reminder_date
+        ]);
     }
+    public function deleteReminder($task_id)
+    {
+        $query = $this->connection->prepare("DELETE FROM Task_Reminder WHERE task_id = :task_id");
+        $query->execute([
+            "task_id" => $task_id
+        ]);
+    }
+    public function getReminders($user_id)
+    {
+        $query = $this->connection->prepare("SELECT Task.task_id, task_name, reminder_date FROM 
+        User_Task JOIN Task JOIN Task_Reminder WHERE user_id=:user_id and Task.status='in progress' and Task.task_id=Task_Reminder.task_id");
+        $query->execute([
+            "user_id" => $user_id
+        ]);
+        return $query->fetchAll();
+    }
+}
 ?>
+
+
+
+
+
+
+
+
+
+
+
