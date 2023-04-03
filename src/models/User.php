@@ -83,7 +83,7 @@ session_start();
   
     public function getCompletedTasks($user_id)
     {
-        $query=$this->connection->prepare("SELECT Task.task_id ,task_name, task_description, due_date FROM 
+        $query=$this->connection->prepare("SELECT Task.task_id ,task_name, task_description, due_date, priority, status FROM 
         User_Task JOIN Task  WHERE user_id=:user_id and Task.status='completed'");
         $query->execute([
             "user_id"=>$user_id
