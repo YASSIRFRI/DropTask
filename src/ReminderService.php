@@ -12,6 +12,8 @@ function getReminders($conn)
     $result = $query->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
+ini_set("SMTP","ssl://smtp.gmail.com");
+ini_set("smtp_port","465");
 function emailReminders($conn)
 {
     $reminders = getReminders($conn);

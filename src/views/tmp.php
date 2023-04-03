@@ -1,7 +1,7 @@
 <?php
 session_start();
+echo "";
 ?>	
-    '
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -15,16 +15,12 @@ session_start();
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
     </head>
     <body>
-    <div class="d-flex flex-row justify-content-between p-4">
+    <div class="nav">
     <div class="logo">
       <img src="/assets/logo-black.svg" alt="logo">
       </div>
-      <div class="p-2">
-        <a class="btn btn-danger" href="../controllers/LoginController/?logout=true">Logout</a>
-        </div>
-      
     </div>
-    <div class="d-flex justify-content-center flex-column container p-4">
+    <div class="d-flex justify-content-center container p-4">
     <div class="w-100 p-4 h-100">
       <div class="card-hover-shadow-2x mb-3 card">
         <div class="card-header-tab card-header">
@@ -36,15 +32,21 @@ session_start();
             <div style="position: static;" class="ps ps--active-y">
               <div class="ps-content">
                 <ul class=" list-group list-group-flush">
-                        <?php
-                        foreach($_SESSION["user"]["tasks"] as $task){
-                          echo '
                   <li class="list-group-item">
                     <div class="todo-indicator bg-warning"></div>
                     <div class="widget-content p-0">
                       <div class="widget-content-wrapper">
                         <div class="widget-content-left mr-2">
-                        </div>
+                          <div class="custom-checkbox custom-control">
+                            <input class="custom-control-input"
+                              id="exampleCustomCheckbox12" type="checkbox"><label class="custom-control-label"
+                              for="exampleCustomCheckbox12">&nbsp;</label>
+                            </div>
+                        </div>'?>
+                        <?php
+                        foreach($_SESSION["user"]["tasks"] as $task){}
+                          echo '';
+                          ?>
                           <div class="widget-content-left p-5">
                           <div class="widget-heading">'.$task["task_description"].'<div class="badge badge-danger ml-2">Rejected</div>
                           </div>
@@ -57,10 +59,8 @@ session_start();
                           <i class="fa fa-edit"></i></a>
                           <a class="border-0 btn-transition btn btn-outline-danger" href="/src/controllers/TaskController?task_delete='.$task["task_id"].'">
                          <i class="fa fa-trash"></i>
-                        </a>
-                         
-                         <a class="border-0 btn-transition btn btn-outline-success" href="../views/AddReminder.php?task_id='.$task["task_id"].'">
                          <i class="fa fa-envelope-open" aria-hidden="true">
+                         <a class="border-0 btn-transition btn btn-outline-danger" href="../views/AddReminder.php?task_id='.$task["task_id"].'">
                          </i>
 
                         </a>
@@ -71,10 +71,10 @@ session_start();
                   <li class="list-group-item">
                         </div>
                           ';
-                        }
                         ?>
                         <?php
-                        echo '
+                        echo '';
+                        ?>
                         </div>
                       </div>
                     </div>
@@ -83,14 +83,16 @@ session_start();
               </div>
             </div>
           </perfect-scrollbar>
-        <div class="d-block p-5 text-right card-footer d-flex justify-content-between"><a class="mr-2 btn btn-warning" href="/src/views/CompletedTasks.php">Get Compelted Tasks</a>
+        </div>
+        <div class="d-block w-100 text-right card-footer d-flex justiy-content-center"><a class="mr-2 btn btn-warning" href="/src/views/CompletedTasks.php">Get Compelted Tasks</a>
         <a class="btn btn-primary" href="/src/views/AddTask.php">Add Task</a></div>
-        <div class="d-flex justify-content-center container p-4">
-        
       </div>
     </div>
     </div>
-  
+    <div class="d-flex justify-content-center container p-4">
+    <div class="w-100 p-4 h-100">
+    <a class="btn btn-danger" href="../controllers/LoginController/?logout=true">Logout</a>
+    </div>
     </body>';
 
 ?>

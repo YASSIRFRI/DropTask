@@ -4,7 +4,7 @@ require '../models/User.php';
 require '../dbconfig.php';
 class TaskController
 {
-    private $userModel;
+    public $userModel;
     public function __construct( User $userModel)
     {
         $this->userModel = $userModel;
@@ -20,12 +20,7 @@ class TaskController
     }
     public function deleteTask()
     {
-        $task = $this->userModel->deleteTask($_POST['id']);
-        if ($task) {
-            header("Location: /src/views/Dashboard.php");
-        } else {
-            header("Location: /src/views/Dashboard.php/?error=1");
-        }
+        $task = $this->userModel->deleteTask($_GET['task_delete']);
     }
     public function getTasks()
     {
@@ -38,41 +33,36 @@ class TaskController
     }
     public function editTask()
     {
-        $task = $this->userModel->editTask($_POST['id'], $_POST['title'], $_POST['description'], $_POST['date'], $_POST['priority']);
-        if ($task) {
-            header("Location: /src/views/Dashboard.php");
-        } else {
-            header("Location: /src/views/Dashboard.php/?error=1");
-        }
+        $this->userModel->editTask($_POST['id'], $_POST['title'], $_POST['description'], $_POST['date'], $_POST['priority']);
     }
     public function completeTask()
     {
-        $task = $this->userModel->completeTask($_GET['task_complete']);
-        if ($task) {
-            header("Location: /src/views/Dashboard.php");
-        } else {
-            header("Location: /src/views/Dashboard.php/?error=1");
-        }
+         $this->userModel->completeTask($_GET['task_complete']);
     }
 
 }	
 $user= new User($conn);
+
 $taskController = new TaskController($user);
 if(isset($_POST['task_description']))
 {
     $taskController->addTask();
+    $_SESSION["user"]["tasks"]=$taskController->userModel->getTasks($_SESSION["user"]["user_id"]);
 }
 else
 {
     if(isset($_GET["task_delete"]))
     {
         $taskController->deleteTask();
+    $_SESSION["user"]["tasks"]=$taskController->userModel->getTasks($_SESSION["user"]["user_id"]);
+    header("Location: /src/views/Dashboard.php");
     }
     else
     {
         if(isset($_GET["task_complete"]))
         {
             $taskController->completeTask();
+            $_SESSION["user"]["tasks"]=$taskController->userModel->getTasks($_SESSION["user"]["user_id"]);
             header("Location: /src/views/Dashboard.php");
         }
     }

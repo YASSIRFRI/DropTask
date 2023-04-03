@@ -1,4 +1,5 @@
 <?php
+session_start();
  class User {
     private $connection;
     public function __construct($conn)
@@ -16,6 +17,7 @@
             $user["completed_tasks"]=$this->getCompletedTasks($user["user_id"]);
             $user["reminders"]=$this->getReminders($user["user_id"]);
             $_SESSION["user"]=$user;
+            return true;
         }
         else {
             return false;
@@ -90,7 +92,7 @@
     }
     public function completeTask($task_id)
     {
-        $query=$this->connection->prepare("UPDATE Tasks SET status='completed' WHERE task_id=:task_id");
+        $query=$this->connection->prepare("UPDATE Task SET status='completed' WHERE task_id=:task_id");
         try{
             $query->execute([
                 "task_id"=>$task_id
@@ -104,7 +106,7 @@
     public function getTasks($user_id)
     {
         $query = $this->connection->prepare("SELECT Task.task_id, task_name, task_description, due_date FROM 
-        User_Task JOIN Task WHERE user_id=:user_id and Task.status='in progress'");
+        User_Task INNER JOIN Task On User_Task.task_id=Task.task_id WHERE User_Task.user_id=:user_id and Task.status='in progress'");
         $query->execute([
             "user_id" => $user_id
         ]);
@@ -112,10 +114,21 @@
     }
     public function deleteTask($id)
     {
-        $query = $this->connection->prepare("DELETE FROM User_Task WHERE user_id = :id");
-        $query->execute([
-            "id" => $id
-        ]);
+        try
+        {
+
+            $query = $this->connection->prepare("DELETE FROM User_Task WHERE User_Task.task_id = :id");
+            $query->execute([
+                "id" => $id
+            ]);
+            return true;
+        }
+        catch(PDOException $e)
+        {
+            echo "Can Not Delete Task";
+            return false;
+        }
+
     }
     public function createReminder($task_id,$reminder_date)
     {
@@ -134,7 +147,7 @@
     }
     public function getReminders($user_id)
     {
-        $query = $this->connection->prepare("SELECT Task.task_id, task_name, reminder_date FROM 
+        $query = $this->connection->prepare("SELECT Task.task_id, task_name, reminder_date_time FROM 
         User_Task JOIN Task JOIN Task_Reminder WHERE user_id=:user_id and Task.status='in progress' and Task.task_id=Task_Reminder.task_id");
         $query->execute([
             "user_id" => $user_id
